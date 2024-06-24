@@ -1,29 +1,34 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Communication_1 = require("./Communication");
-var CLI_1 = require("./CLI");
 var DNSClient_1 = require("./DNSClient");
 var ResponseGenerator_1 = require("./ResponseGenerator");
 var Persistance_1 = require("./Persistance");
-var OutputLayer_1 = require("./OutputLayer");
-var ConsoleOutput_1 = require("./ConsoleOutput");
-var FileOutput_1 = require("./FileOutput");
+var InputLayer_1 = require("./InputLayer");
+var OutputFactory_1 = require("./OutputFactory");
 var communication = new Communication_1.Communication();
 var persistence = new Persistance_1.Persistence();
-var console_ = new ConsoleOutput_1.ConsoleOutput();
-var F_out = new FileOutput_1.FileOutput('output.txt');
+/*const console_ = new ConsoleOutput();
+const F_out = new FileOutput('output.txt');
 //const outputLayer = new OutputLayer(F_out);
-var outputLayer = new OutputLayer_1.OutputLayer(console_);
+const outputLayer = new OutputLayer(console_);*/
+var outputType = 'Console'; // Change to 'File' for file output
+//const outputFilePath = 'output.txt'; // Required if outputType is 'File'
+var outputLayer = OutputFactory_1.OutputFactory.createOutput(outputType);
 var dnsClient = new DNSClient_1.DNSClient();
 var responseHandler = function (msg) { return (0, ResponseGenerator_1.handleResponse)(msg, persistence, outputLayer, dnsClient); };
 var errorHandler = function (err) { return console.error('Communication error:', err); };
 dnsClient.start(communication, persistence);
 //communication.run(Buffer.alloc(0), persistence, outputLayer, dnsClient)  //maybe we can take handler input
 communication.run(responseHandler, errorHandler);
-var cli = new CLI_1.CLI(dnsClient);
-cli.run();
+/*const cli = new CLI(dnsClient);
+cli.run();*/
 /*const fli = new Fli('input.txt',dnsClient);
 fli.run();*/
+var inputType = 'CLI'; // Change to 'File' for file input
+//const filePath = 'input.txt'; // Required if inputType is 'File'
+var inputLayer = InputLayer_1.InputFactory.createInput(inputType, dnsClient);
+inputLayer.run();
 //////////////////////////////////////////// FILE OUTPUT CASE
 /*import { Communication } from './Communication';
 import { CLI } from './CLI';

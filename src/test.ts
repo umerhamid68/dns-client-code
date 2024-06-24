@@ -7,12 +7,19 @@ import { OutputLayer } from './OutputLayer';
 import { ConsoleOutput } from './ConsoleOutput';
 import { FileOutput } from './FileOutput';
 import { Fli } from './Fli';
+import { InputFactory } from './InputLayer';
+import { OutputFactory } from './OutputFactory';
 const communication = new Communication();
 const persistence = new Persistence();
-const console_ = new ConsoleOutput();
+/*const console_ = new ConsoleOutput();
 const F_out = new FileOutput('output.txt');
 //const outputLayer = new OutputLayer(F_out);
-const outputLayer = new OutputLayer(console_);
+const outputLayer = new OutputLayer(console_);*/
+const outputType = 'Console'; // Change to 'File' for file output
+//const outputFilePath = 'output.txt'; // Required if outputType is 'File'
+
+const outputLayer = OutputFactory.createOutput(outputType);
+
 const dnsClient = new DNSClient();
 const responseHandler = (msg: Buffer) => handleResponse(msg, persistence, outputLayer, dnsClient);
 const errorHandler = (err: Error) => console.error('Communication error:', err);
@@ -20,12 +27,15 @@ dnsClient.start(communication, persistence);
 
 //communication.run(Buffer.alloc(0), persistence, outputLayer, dnsClient)  //maybe we can take handler input
 communication.run(responseHandler, errorHandler);
-const cli = new CLI(dnsClient);
-cli.run();
+/*const cli = new CLI(dnsClient);
+cli.run();*/
 /*const fli = new Fli('input.txt',dnsClient);
 fli.run();*/
+const inputType = 'CLI'; // Change to 'File' for file input
+//const filePath = 'input.txt'; // Required if inputType is 'File'
 
-
+const inputLayer = InputFactory.createInput(inputType, dnsClient);
+inputLayer.run()
 
 
 //////////////////////////////////////////// FILE OUTPUT CASE

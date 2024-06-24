@@ -4,6 +4,16 @@
 //     closeComm(): void;
 // }
 
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////// MY CODE IMP
 import { DNSClient } from "./DNSClient";
 import { OutputLayer } from "./OutputLayer";
 import { PersistenceInterface } from "./PersistanceInterface";
@@ -15,4 +25,8 @@ export interface CommunicationInterface {
     //run(msg: Buffer, persistence: PersistenceInterface, outputLayer: OutputLayer, dnsClient: DNSClient): void;
     run(handleResponse: (msg: Buffer) => void, handleError: (err: Error) => void): void;
 }
+//////////////////////////////////////////////////////////////////////////////////////////////// MY CODE IMP
+
+
+
 

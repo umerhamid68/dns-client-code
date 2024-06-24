@@ -68,7 +68,7 @@ var HeaderEncoder = /** @class */ (function () {
     function HeaderEncoder() {
     }
     HeaderEncoder.createHeader = function (transactionID, QDCOUNT) {
-        var bufferWrapper = new BufferWrapper_1.BufferWrapper(12);
+        var bufferWrapper = new BufferWrapper_1.BufferWrapper(12); //bytes
         bufferWrapper.writeUInt16BE(transactionID); // transactionID
         bufferWrapper.writeUInt16BE(0x0100); // flags 
         bufferWrapper.writeUInt16BE(QDCOUNT); // QDCOUNT
